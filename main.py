@@ -1,4 +1,4 @@
-from flask import Flask, send_file, request
+from flask import Flask, send_file, request, render_template
 from io import StringIO, BytesIO
 import random
 import json
@@ -16,8 +16,12 @@ app = Flask(__name__)
 
 svgs = json.load(open('assets.json'))
 
-@app.route('/image')
+@app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/image')
+def image():
     seed = "derp" if 'seed' not in request.args else request.args.get('seed')
     random.seed(seed)
     hair = random.choice(svgs['hairs'])
